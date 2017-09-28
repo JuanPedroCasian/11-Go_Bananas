@@ -24,7 +24,21 @@ void GetDocName(string& DocName){         //This Function has been explained in 
   }
 }
 
-void GetDocData (string& DocData, const string& DocName){     // This function passes the info in the file to a string to be able to analyze it
+void GetDocData (string& DocData, const string& DocName){     /*
+                                                              Here we learn two new things about the function
+
+                                                              const
+                                                              first is when you add: const. before the type of variable
+                                                              This will keep the value of the function constant so you won't
+                                                              change the variable's value
+
+                                                              &
+                                                              this symbol after the variable type (string&) makes it a referenced variable
+                                                              which means that what you change in the variable inside tha function will
+                                                              change it also from where you call it.
+                                                              
+                                                              */
+                                                          // This function passes the info in the file to a string to be able to analyze it
   string DataLine;
 
     ifstream TestFile (DocName);
@@ -41,20 +55,37 @@ void GetDocData (string& DocData, const string& DocName){     // This function p
 
 }
 
-int AnalyzeDocData (string DocData){
+int AnalyzeDocData (string DocData){    //fucntion to convert all to lowercase and find the number of bananas in file
 
   int WordCounter = 0, Position = 0, Place = 0;
   bool a = true;
 
-  for (int i = 0; i < DocData.length(); i++){
+  for (int i = 0; i < DocData.length(); i++){     /*
+                                                    This loop goes through all the characters of the string and converts them into
+                                                    lower case letters
+                                                    Note: A string can be used like a vector if needed
+                                                  */
     DocData[i] = tolower(DocData[i]);
     }
 
-    while (a == true){
-      if (DocData.find("banana", Position) != -1){
+    while (a == true){          // This loop goes through the positions and searchs for the words
+
+      if (DocData.find("banana", Position) != -1){      /* Here we use a new function which is:
+                                                          .find("WordYouWantToSearch", PositionWhereToStartSearching);
+
+                                                          this function goes position by position until it founds the word
+                                                          then it returns the position where the word was found
+
+                                                          in case that the function does not finds a word then it will return -1
+
+
+                                                          This is why we will continue doing the loop until the word is not found
+                                                          */
       WordCounter += 1;
-      Place = DocData.find("banana",Position);
-      Position = Place + 1;
+      Place = DocData.find("banana",Position);          // This will give the position were the word was found
+      Position = Place + 1;                             /* This will add one to the position so that the next time
+                                                          the function will search from the position after the word was found
+                                                        */
     } else {
       a = false;
     }
@@ -63,7 +94,7 @@ return WordCounter;
 }
 
 int main () {
-  string DocName = "", DocData = "", MagicWord = "Banana";
+  string DocName = "", DocData = "";
   int WordCounter = 0;
 
   GetDocName(DocName);
